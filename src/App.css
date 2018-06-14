@@ -1,3 +1,29 @@
-.map {
-  
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  height: 100%;
+}
+
+.app__header {
+  background-color: #262626;
+}
+
+.app__sidebar {
+  height: 100%;
+  background-color: #000;
+  color: #ccc;
+}
+
+.app__section {
+  width: 100%;
 }
