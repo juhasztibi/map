@@ -3,6 +3,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #000;
 }
 
 #root {
@@ -16,12 +17,34 @@ body {
 
 .app__header {
   background-color: #262626;
+  padding: 20px;
+  display: flex;
 }
 
 .app__sidebar {
   height: 100%;
-  background-color: #000;
+  width: 100%;
+  overflow: hidden;
   color: #ccc;
+  max-width: 0px;
+  visibility: hidden;
+  //padding: 0 8px;
+  transition: ease .2s max-width, ease .2s visibility;
+  will-change: max-width, visibility;
+}
+
+.app__sidebar-wrapper {
+  width: 300px;
+}
+
+.app__sidebar--isOpen {
+  max-width: 300px;
+  visibility: visible;
+}
+
+.app__sidebar-title {
+  margin: 20px 8px;
+  padding: 0;
 }
 
 .app__section {
@@ -39,8 +62,75 @@ body {
 }
 
 .loader {
+  color: #FFF;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.location-filter {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.location-filter__button,
+.location-filter__input {
+  border: 0;
+  padding: 10px;
+  font-size: 14px;
+  flex: 1;
+}
+
+.location-filter__button {
+  background-color: #5370A1;
+  cursor: pointer;
+  color: #FFF;
+}
+
+.list-view {
+  position: relative;
+  margin-top: 15px;
+  padding: 0 8px;
+}
+
+.list-view__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list-view__list-item {
+  margin-bottom: 15px;
+}
+
+.hamburger {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  display: block;
+}
+
+.hamburger span,
+.hamburger::before,
+.hamburger::after {
+  width: 100%;
+  height: 2px;
+  background-color: #6684BC;
+}
+
+.hamburger::before {
+  margin-top: 5px;
+}
+
+.hamburger::after {
+
 }

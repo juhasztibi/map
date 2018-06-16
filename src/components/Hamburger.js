@@ -2,7 +2,9 @@ import React from 'react';
 
 const Hamburger = (props) => {
   return (
-    <div onClick={props.openMenu}>menu</div>
+    <div onClick={props.openMenu} className="hamburger">
+      <span />
+    </div>
   )
 }
 

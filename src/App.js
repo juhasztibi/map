@@ -27,14 +27,16 @@ class App extends Component {
 
   render() {
 
-    const { searchResult } = this.state;
+    const { searchResult, menuOpen } = this.state;
 
     return (
       <div className="app">
-        <aside className="app__sidebar">
-          <h1>Bart Locations</h1>
-          <LocationFilter search={this.search} />
-          <ListView result={searchResult} />
+        <aside className={menuOpen ? "app__sidebar app__sidebar--isOpen" : "app__sidebar"}>
+          <div className="app__sidebar-wrapper">
+            <h1 className="app__sidebar-title">Bart Locations</h1>
+            <LocationFilter search={this.search} />
+            <ListView result={searchResult} />
+          </div>
         </aside>
         <section className="app__section">
           <div className="app__header">
