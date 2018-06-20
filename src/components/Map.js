@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import AsyncLoader from '../services/asyncLoader';
-import {googleMapsApi} from '../config';
 
 class Map extends Component {
 
@@ -9,29 +7,32 @@ class Map extends Component {
     this.state = {
       loading: true
     }
-    this.maps = window.google;
   }
 
   componentDidMount = () => {
-
-    window.initMap = this.initMap;
-
-    AsyncLoader(`https://maps.googleapis.com/maps/api/js?key=${googleMapsApi}&callback=initMap`);
-
-  }
-
-  initMap = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        new window.google.maps.Map(this.map, {
+
+        let userLocation = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        let map = new window.google.maps.Map(this.map, {
           center: {lat: position.coords.latitude, lng: position.coords.longitude},
           zoom: 8
         });
 
+        let request = {
+          location: userLocation,
+          radius: '1500',
+          type: ['restaurant']
+        };
+
+        let service = new window.google.maps.places.PlacesService(map);
+        service.nearbySearch(request, this.callback);
+
         this.setState({
           loading: false
         });
-      })
+      });
     } else {
       new window.google.maps.Map(this.map, {
         center: {lat: -34.397, lng: 150.644},
@@ -40,7 +41,19 @@ class Map extends Component {
     }
   }
 
+  initMap = () => {
+
+  }
+
+  callback = (results, status) => {
+    if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+      this.props.initSearch(results);
+    }
+  }
+
   render() {
+
+    console.log(this.props.locations)
     return (
       <React.Fragment>
         <div className="map__wrapper">
