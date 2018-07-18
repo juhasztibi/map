@@ -4,26 +4,21 @@ class LocationFilter extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      input: null
-    }
+    this.sendForm = this.sendForm.bind(this);
   }
 
-  handleInput = (input) => {
-    this.setState({
-      input: input.target.value
-    });
-  }
-
-  sendBack = () => {
-    this.props.search(this.state.input);
+  sendForm = (e) => {
+    e.preventDefault();
+    this.props.filterHandler(this.place.value);
   }
 
   render() {
     return (
       <div className="location-filter">
-        <input type="text" className="location-filter__input" onChange={this.handleInput} />
-        <button type="button" className="location-filter__button" onClick={this.sendBack}>Filter</button>
+        <form onSubmit={this.sendForm}>
+          <input type="text" className="location-filter__input" ref={place => this.place = place}/>
+          <button type="submit" className="location-filter__button">Filter</button>
+        </form>
       </div>
     );
   }
