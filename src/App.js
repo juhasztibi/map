@@ -22,8 +22,8 @@ class App extends Component {
     this.filterHandler = this.filterHandler.bind(this);
     this.initMap = this.initMap.bind(this);
     this.setPlaces = this.setPlaces.bind(this);
-    this.places;
-    this.mapServiceInstance;
+    this.places = [];
+    this.mapServiceInstance = null;
   }
 
   componentDidMount = () => {
@@ -60,6 +60,10 @@ class App extends Component {
     })
   }
 
+  bubble = (item) => {
+    console.log(item);
+  }
+
   render() {
 
     const { menuOpen, mapIsLoading, places } = this.state;
@@ -70,7 +74,7 @@ class App extends Component {
           <div className="app__sidebar-wrapper">
             <h1 className="app__sidebar-title">Bart Locations</h1>
             <LocationFilter filterText={this.state.filterText} filterHandler={this.filterHandler} />
-            <ListView filterText={this.state.filterText} places={places} />
+            <ListView filterText={this.state.filterText} places={places} mapService={this.mapServiceInstance} />
           </div>
         </aside>
         <section className="app__section">

@@ -5,7 +5,7 @@ class mapService {
     this.callback = callback;
     this.placeObject = placeObject;
     this.radius = radius;
-    this.map;
+    this.map = null;
     this.markers = [];
     this.infowindows = [];
   }
@@ -50,10 +50,11 @@ class mapService {
     this.deleteMarkers();
     markers.forEach((place) => {
       let infowindow = new window.google.maps.InfoWindow({
-        content: place.title
+        content: place.name
       });
       let marker = new window.google.maps.Marker({
         position: place.geometry.location,
+        id: place.id,
         map: this.map,
         title: 'Click to zoom'
       });
@@ -64,19 +65,26 @@ class mapService {
       this.infowindows.push(infowindow);
       this.markers.push(marker);
     });
+
+    this.map.panTo(this.markers[0].getPosition());
   }
 
   deleteMarkers = () => {
-    this.markers.map(marker => {
-      marker.setMap(null);
-    });
+    this.markers.map(marker => marker.setMap(null));
     this.markers = [];
   }
 
   closeInfoWindows = () => {
-    this.infowindows.map(infowindow => {
-      infowindow.close();
-    });
+    this.infowindows.map(infowindow => infowindow.close());
+  }
+
+  openInfoWindow = (placeId) => {
+    let currentMarker = this.markers.find(element => element.id === placeId);
+
+    if (currentMarker) {
+      this.map.panTo(currentMarker.getPosition());
+      window.google.maps.event.trigger(currentMarker, 'click');
+    }
   }
 
 }
