@@ -34,9 +34,6 @@ class App extends Component {
   initMap = () => {
     this.mapServiceInstance = new mapService(this.mapElement, this.setPlaces, "restaurant", "1500");
     this.mapServiceInstance.createMap();
-    this.setState({
-      mapIsLoading: false
-    });
   }
 
   filterHandler = (filterText) => {
@@ -56,12 +53,9 @@ class App extends Component {
 
   setPlaces = (placeList) => {
     this.setState({
-      places: placeList
+      places: placeList,
+      mapIsLoading: false
     })
-  }
-
-  bubble = (item) => {
-    console.log(item);
   }
 
   render() {

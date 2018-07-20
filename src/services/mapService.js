@@ -47,26 +47,33 @@ class mapService {
   }
 
   displayMarkers = (markers) => {
-    this.deleteMarkers();
-    markers.forEach((place) => {
-      let infowindow = new window.google.maps.InfoWindow({
-        content: place.name
-      });
-      let marker = new window.google.maps.Marker({
-        position: place.geometry.location,
-        id: place.id,
-        map: this.map,
-        title: 'Click to zoom'
-      });
-      marker.addListener('click', function() {
-        this.closeInfoWindows();
-        infowindow.open(this.mapElement, marker);
-      }.bind(this));
-      this.infowindows.push(infowindow);
-      this.markers.push(marker);
-    });
 
-    this.map.panTo(this.markers[0].getPosition());
+    this.deleteMarkers();
+
+    if (markers.length) {
+      markers.forEach((place) => {
+        let infowindow = new window.google.maps.InfoWindow({
+          content: place.name
+        });
+        let marker = new window.google.maps.Marker({
+          position: place.geometry.location,
+          id: place.id,
+          map: this.map,
+          title: 'Click to zoom'
+        });
+        marker.addListener('click', function() {
+          this.closeInfoWindows();
+          infowindow.open(this.mapElement, marker);
+        }.bind(this));
+        this.infowindows.push(infowindow);
+        this.markers.push(marker);
+      });
+    }
+
+    if (this.markers.length) {
+      this.map.panTo(this.markers[0].getPosition());
+    }
+
   }
 
   deleteMarkers = () => {

@@ -20,34 +20,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId            : '240677350091102',
-          autoLogAppEvents : true,
-          xfbml            : true,
-          version          : 'v3.0'
-        });
-      };
-
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "https://connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-
-       /* make the API call */
-        FB.api(
-            "...?fields={location}",
-            function (response) {
-              if (response && !response.error) {
-                console.log(response);
-              }
-            }
-        );
-    </script>
   </head>
   <body>
     <noscript>
