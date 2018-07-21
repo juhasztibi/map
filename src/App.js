@@ -37,7 +37,6 @@ class App extends Component {
   }
 
   filterHandler = (filterText) => {
-    console.log(filterText);
     this.setState({
       filterText: filterText
     });
