@@ -1,3 +1,7 @@
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import foursquare from "./foursquare";
+
 class mapService {
 
   constructor(mapElement, callback, placeObject, radius) {
@@ -8,6 +12,7 @@ class mapService {
     this.map = null;
     this.markers = [];
     this.infowindows = [];
+    this.foursquare = new foursquare();
   }
 
   dispatchResult = (result, status) => {
@@ -52,17 +57,28 @@ class mapService {
 
     if (markers.length) {
       markers.forEach((place) => {
+
         let infowindow = new window.google.maps.InfoWindow({
           content: place.name
         });
         let marker = new window.google.maps.Marker({
           position: place.geometry.location,
           id: place.id,
-          map: this.map,
-          title: 'Click to zoom'
+          map: this.map
         });
         marker.addListener('click', function() {
           this.closeInfoWindows();
+          infowindow.setContent("Loading...");
+          this.createContent(place.geometry.location).then(response => {
+            console.log(response);
+            if (response.meta.code === 200) {
+              infowindow.setContent(this.renderInfowindowView(response));
+            } else {
+              infowindow.setContent("An error occured, please try it again later.");
+            }
+          }).catch(err => {
+            infowindow.setContent("An error occured, please try it again later.");
+          });
           infowindow.open(this.mapElement, marker);
         }.bind(this));
         this.infowindows.push(infowindow);
@@ -92,6 +108,50 @@ class mapService {
       this.map.panTo(currentMarker.getPosition());
       window.google.maps.event.trigger(currentMarker, 'click');
     }
+  }
+
+  createContent = async (placeCoordinates) => {
+    const placeDetails = await this.foursquare.getPlaceInfo(placeCoordinates);
+    const placeDetailsJson = await placeDetails.json();
+    return placeDetailsJson;
+  }
+
+  renderInfowindowView = (placeDetails) => {
+
+    //let image = placeDetails.response.venue.bestPhoto.prefix + placeDetails.response.venue.bestPhoto.suffix;
+    const title = placeDetails.response.venues["0"].name;
+    const category = placeDetails.response.venues["0"].categories["0"].name;
+    const address = placeDetails.response.venues["0"].location.formattedAddress;
+    const {checkinsCount, tipCount, usersCount, visitsCount} = placeDetails.response.venues["0"].stats;
+    const verified = placeDetails.response.venues["0"].verified;
+
+    return (
+      ReactDOMServer.renderToString(
+        <div className="infowindow">
+          <h1 className="infowindow__title">{title}</h1>
+          <div className="infowindow__row">
+            <strong>Category:</strong> {category}
+          </div>
+          <div className="infowindow__row">
+            <strong>Address:</strong>
+            {address.map((addressline, index) => {
+              return (
+                <div key={index}>{addressline}</div>
+              )
+            })}
+          </div>
+          <div className="infowindow__row">
+            <strong>Stats</strong>
+            <div>Check-ins: {checkinsCount}</div>
+            <div>Tips: {tipCount}</div>
+            <div>Users: {usersCount}</div>
+            <div>Visits: {visitsCount}</div>
+          </div>
+          <div className="infowindow__row">{verified ? "Verified place!" : "Not verified place!"}</div>
+          <div className="infowindow__row infowindow__row--isLast"><img src="Powered-by-Foursquare-full-color-300.png" /></div>
+        </div>
+      )
+    )
   }
 
 }

@@ -63,7 +63,7 @@ class App extends Component {
     const { menuOpen, mapIsLoading, places } = this.state;
 
     return (
-      <div className="app">
+      <main className="app">
         <aside className={menuOpen ? "app__sidebar app__sidebar--isOpen" : "app__sidebar"}>
           <div className="app__sidebar-wrapper">
             <h1 className="app__sidebar-title">Bart Locations</h1>
@@ -77,7 +77,7 @@ class App extends Component {
           </div>
           <Map mapElement={mapElement => this.mapElement = mapElement} filterText={this.state.filterText} places={places} loading={mapIsLoading}/>
          </section>
-      </div>
+      </main>
     );
   }
 }

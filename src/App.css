@@ -146,6 +146,29 @@ body {
   margin-top: 5px;
 }
 
+.infowindow {
+  display: flex;
+  flex-direction: column;
+}
+
+.infowindow__title {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 20px;
+}
+
+.infowindow__row {
+  margin-bottom: 10px;
+}
+
+.infowindow__row--isLast {
+  margin-bottom: 0;
+}
+
+.infowindow__row--isLast img {
+  width: 150px;
+}
+
 .loader__wrapper {
   position: absolute;
   transform: translate(-50%, -50%);
