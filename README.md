@@ -20,7 +20,7 @@ This application runs in any modern browser, I suggest chrome.
 
 ### Installing
 
-Run `npm run start` to get started with the application.
+Run `npm install` then `npm run start` to get started with the application.
 
 ### Compatibility
 

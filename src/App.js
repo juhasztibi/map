@@ -16,7 +16,8 @@ class App extends Component {
       menuOpen: false,
       filterText: "",
       mapIsLoading: true,
-      places: ""
+      places: "",
+      mapError: false
     }
 
     this.filterHandler = this.filterHandler.bind(this);
@@ -32,8 +33,14 @@ class App extends Component {
   }
 
   initMap = () => {
-    this.mapServiceInstance = new mapService(this.mapElement, this.setPlaces, "restaurant", "1500");
-    this.mapServiceInstance.createMap();
+    if (window.google) {
+      this.mapServiceInstance = new mapService(this.mapElement, this.setPlaces, "restaurant", "1500");
+      this.mapServiceInstance.createMap();
+    } else {
+      this.setState({
+        mapError: true
+      })
+    }
   }
 
   filterHandler = (filterText) => {
@@ -59,7 +66,7 @@ class App extends Component {
 
   render() {
 
-    const { menuOpen, mapIsLoading, places } = this.state;
+    const { menuOpen, mapIsLoading, places, mapError } = this.state;
 
     return (
       <main className="app">
@@ -74,7 +81,9 @@ class App extends Component {
           <div className="app__header">
             <Hamburger openMenu={this.openMenu} />
           </div>
-          <Map mapElement={mapElement => this.mapElement = mapElement} filterText={this.state.filterText} places={places} loading={mapIsLoading}/>
+          {!mapError ? <Map mapElement={mapElement => this.mapElement = mapElement} filterText={this.state.filterText} places={places} loading={mapIsLoading}/> :
+            <div className="error">An error occured meanwhile loading google maps. Please try again later.</div>
+          }
          </section>
       </main>
     );

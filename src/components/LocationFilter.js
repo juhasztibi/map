@@ -16,7 +16,7 @@ class LocationFilter extends Component {
     return (
       <div className="location-filter">
         <form onSubmit={this.sendForm}>
-          <input type="text" className="location-filter__input" ref={place => this.place = place}/>
+          <input type="text" name="search" aria-label="Search" className="location-filter__input" ref={place => this.place = place} />
           <button type="submit" className="location-filter__button">Filter</button>
         </form>
       </div>

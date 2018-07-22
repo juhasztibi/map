@@ -216,6 +216,14 @@ body {
   left: 1.5em;
 }
 
+.error {
+  position: absolute;
+  color: #fff;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+}
+
 @-webkit-keyframes load1 {
   0%,
   80%,
